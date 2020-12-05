@@ -127,9 +127,13 @@ int main(void)
 - Vamos executar o comando `debug50 ./buggy0`, e ele nos dirá para recompilar nosso programa desde que o alteramos. Em seguida, ele nos dirá para adicionar um **ponto de interrupção**, ou indicador para uma linha de código onde o depurador deve pausar nosso programa.
   - Usando as teclas para cima e para baixo no terminal, podemos reutilizar comandos do passado sem digitá-los novamente.
 - Clicaremos à esquerda da linha 6 em nosso código e um círculo vermelho aparecerá:
+
 ![](./gdb1.png)
+
 - Agora, se executarmos `debug50 ./buggy0` novamente, veremos o painel do depurador aberto à direita:
+
 ![](./gdb2.png)
+
 - Vemos que a variável que criamos, `i`, está na seção Variáveis locais, e vemos que há um valor de `0`.
 - Nosso ponto de interrupção pausou nosso programa na linha 6, destacando essa linha em amarelo. Para continuar, temos alguns controles no painel do depurador. O triângulo azul continuará nosso programa até chegarmos a outro ponto de interrupção ou o fim de nosso programa. A seta curva à sua direita, **Step Over**, irá “ultrapassar” a linha, executando-a e pausando nosso programa novamente imediatamente depois dela.
 - Então, vamos usar a seta curva para percorrer a próxima linha e ver o que muda depois. Estamos na linha `printf` e, pressionando a seta curva novamente, vemos um único `#` impresso em nossa janela de terminal. Com outro clique na seta, vemos o valor de `i` mudar para `1`. Podemos continuar clicando na seta para ver o nosso programa rodar, uma linha de cada vez.
@@ -163,9 +167,13 @@ int inteiro_negativo(void)
   - Implementamos outra função, `inteiro_negativo`, para obter um número inteiro negativo do usuário. Precisamos lembrar o protótipo antes de nossa função principal e, em seguida, nosso código é compilado.
 - Mas quando executamos nosso programa, ele continua nos pedindo um número inteiro negativo, mesmo depois de fornecermos um. Vamos definir um ponto de interrupção na linha 10, `int i = inteiro_negativo();`, já que é a primeira linha de código interessante. Executaremos `debug50 ./buggy1` e veremos na seção Pilha de chamadas do painel de depuração que estamos na função `main`. (A "pilha de chamadas" refere-se a todas as funções que foram chamadas em nosso programa no momento, e ainda não retornaram. Até agora, apenas a função `main` foi chamada.)
 - Clicaremos na seta apontando para baixo, **Step Into**, e o depurador nos levará para a função chamada nessa linha, `inteiro_negativo`. Vemos a pilha de chamadas atualizada com o nome da função e a variável `n` com o valor `0`:
+
 ![](./gdb3.png)
+
 - Podemos clicar na seta **Step Over** novamente e ver `n` ser atualizado com `-1`, que é realmente o que inserimos:
+
 ![](./gdb4.png)
+
 - Clicamos em Step Over novamente e vemos nosso programa voltando para dentro do laço. Nosso laço `while` ainda está em execução, então a condição que ele verifica ainda deve ser verdadeira. E vemos que `n < 0` é verdadeiro mesmo se inserirmos um número inteiro negativo, então devemos corrigir nosso bug alterando-o para `n >= 0`.
 - Podemos economizar muito tempo no futuro investindo um pouco agora para aprender como usar o `debug50`!
 - Também podemos usar **ddb**, abreviação de “duck debugger”, uma técnica real em que explicamos o que estamos tentando fazer com um pato de borracha e, muitas vezes, percebemos nosso próprio erro de lógica ou implementação conforme o explicamos .
@@ -182,7 +190,9 @@ int inteiro_negativo(void)
   - …
 - Dentro de nossos computadores, temos chips chamados RAM, **memória** de acesso aleatório, que armazena dados para uso de curto prazo, como o código de um programa enquanto está em execução ou um arquivo enquanto está aberto. Podemos salvar um programa ou arquivo em nosso disco rígido (ou SSD, unidade de estado sólido) para armazenamento de longo prazo, mas usamos RAM porque é muito mais rápido. No entanto, a RAM é volátil ou requer energia para manter os dados armazenados.
 - Podemos pensar nos bytes armazenados na RAM como se estivessem em uma grade:
+
 ![](./ram.png)
+
   - Na realidade, existem milhões ou bilhões de bytes por chip.
 - Cada byte terá um local no chip, como o primeiro byte, o segundo byte e assim por diante.
 - Em C, quando criamos uma variável do tipo `char`, que terá o tamanho de um byte, ela será armazenada fisicamente em uma dessas caixas na RAM. Um inteiro, com 4 bytes, ocupará quatro dessas caixas.
@@ -204,7 +214,9 @@ int main(void)
   - Dividimos não por 3, mas por 3,0, então o resultado também é um float.
   - Podemos compilar e executar nosso programa e ver uma média impressa.
 - Enquanto nosso programa está em execução, as três variáveis int são armazenadas na memória:
+
 ![](./ram2.png)
+
   - Cada `int` ocupa quatro caixas, representando quatro bytes, e cada byte por sua vez é feito de oito bits, 0s e 1s armazenados por componentes elétricos.
 - Acontece que, na memória, podemos armazenar variáveis uma após a outra, consecutivamente, e acessá-las mais facilmente com laços. Em C, uma lista de valores armazenados um após o outro de forma contígua é chamada de **array**.
 - Para nosso programa acima, podemos usar `int pontos[3]`; para declarar **vetor** (outro nome para array) de três inteiros.
@@ -336,10 +348,14 @@ int main(void)
 }
 ```
   - Veremos os valores 72, 73 e 33 exibidos e podemos perceber que estes valores estão armazenados na memória como:
+
 ![](./ram4.png)
+
 - **Strings** são, na verdade, apenas vetores de caracteres e definidas não em C, mas pela biblioteca CS50. Se tivéssemos um vetor chamado `s`, cada caractere pode ser acessado com `s[0]`, `s[1]` e assim por diante.
 - E acontece que uma `string` termina com um caractere especial, `'\0'`, ou um byte com todos os bits definidos como `0`. Esse caractere é chamado de caractere **nulo** ou **NUL**. Então, na verdade, precisamos de quatro bytes para armazenar nossa `string` com três caracteres:
+
 ![](./ram5.png)
+
 - Podemos usar uma `string` como um vetor em nosso programa e imprimir os códigos ASCII, ou valores inteiros, de cada caractere da `string`:
 ```c
 #include <cs50.h>
@@ -412,7 +428,9 @@ words[0] = "HI!";
 words[1] = "BYE!";
 ```
 E na memória, a matriz de strings pode ser armazenada e acessada com:
+
 ![](./ram6.png)
+
   - `words[0]` refere-se ao primeiro elemento, ou valor, da matriz de palavras, que é uma `string` e, portanto, `words[0][0]` se refere ao primeiro elemento dessa `string`, que é um caractere.
   - Portanto, um `array` de strings é apenas um `array` de arrays de caracteres.
 - Agora podemos combinar o que vimos, para escrever um programa que pode transformar letras em maiúsculas:

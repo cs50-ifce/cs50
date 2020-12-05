@@ -43,6 +43,7 @@ int main(void)
   ## IDE CS50
 -   Para começar a escrever nosso código rapidamente, usaremos uma ferramenta para o curso, a IDE CS50, um ambiente de desenvolvimento integrado que inclui programas e recursos para escrever código. O IDE CS50 é construído sobre um IDE baseado em nuvem popular usado por diversos programadores, mas com recursos educacionais adicionais e personalização.
 - Abriremos o IDE e, após fazer o login, veremos uma tela como esta:
+
 ![IDE CS50](./ide-cs50.png)
 
   - O painel superior, em branco, conterá arquivos de texto nos quais podemos escrever nosso código.
@@ -130,7 +131,9 @@ mas é muito mais difícil de ler, então consideramos que tem um estilo ruim. P
 - Além disso, podemos adicionar **comentários**, ou seja, notas e observações em nosso código-fonte para nós mesmos ou outras pessoas que não afetam a forma como nosso código é executado. Por exemplo, podemos adicionar uma linha como `// Cumprimentar o usuário`, com duas barras `//` para indicar que a linha é um comentário e, em seguida, escrever o propósito do nosso código ou programa para nos ajudar a lembrar mais tarde.
 - **check50** irá verificar a exatidão do nosso código com alguns testes automatizados. A equipe CS50 escreve testes especificamente para alguns dos programas que escreveremos no curso, e as instruções para usar o `check50` serão incluídas em **cada conjunto de problemas ou laboratório**, conforme necessário. Depois de executar `check50`, veremos alguma saída nos informando se nosso código passou nos testes relevantes.
 - O IDE CS50 também nos dá o equivalente a nosso próprio computador na nuvem, em algum lugar da internet, com nossos próprios arquivos e pastas. Se clicarmos no ícone de pasta no canto superior esquerdo, veremos uma árvore de arquivos, uma GUI dos arquivos em nosso IDE:
+
 ![Diretórios](./ide-cs50-1.png)
+
   - Para abrir um arquivo, podemos apenas clicar duas vezes nele. `ola.c` é o código-fonte que acabamos de escrever, e `ola` em si terá muitos pontos vermelhos, cada um dos quais são caracteres **não imprimíveis**, pois representam instruções binárias para nossos computadores.
 
 ## Comandos Linux
