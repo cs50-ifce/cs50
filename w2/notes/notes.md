@@ -59,7 +59,7 @@ int main(void)
 - Isso inclui os protótipos de todas as funções dessas bibliotecas que incluímos, para que possamos usá-las em nosso código.
 - A compilação pega nosso código-fonte, em C, e o converte em outro tipo de código-fonte chamado código **assembly**, que se parece com isto:
 ```s
-...
+   ...
 main:                         # @main
     .cfi_startproc
 # BB#0:
@@ -84,7 +84,7 @@ main:                         # @main
     callq    printf
     ...
   ```
-    - Essas instruções são de baixo nível  e estão mais próximas das instruções binárias que o processador de um computador pode entender diretamente. Eles geralmente operam nos próprios bytes, em oposição a abstrações como nomes de variáveis.
+  - Essas instruções são de baixo nível  e estão mais próximas das instruções binárias que o processador de um computador pode entender diretamente. Eles geralmente operam nos próprios bytes, em oposição a abstrações como nomes de variáveis.
 - A próxima etapa é pegar o código do **assembly** e traduzi-lo em instruções em binário, **montando-o**. As instruções em binário são chamadas de **código de máquina**, que a CPU de um computador pode executar diretamente.
 - A última etapa é a **linkedição**, onde versões compiladas anteriormente de bibliotecas que incluímos anteriormente, como `cs50.c`, são realmente combinadas com o binário de nosso programa. Portanto, acabamos com um arquivo binário, `a.out` ou `ola`, que é o código de máquina combinado para `ola.c`, `cs50.c` e stdio.c. (No IDE CS50, o código de máquina pré-compilado para `cs50.c` e stdio.c já foi instalado e o clang foi configurado para localizá-los e usá-los.)
 - Essas quatro etapas foram abstraídas ou simplificadas pelo `make`, portanto, tudo o que precisamos implementar é o código de nossos programas.
