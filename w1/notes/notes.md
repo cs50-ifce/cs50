@@ -2,10 +2,10 @@
 
 - [C](./notes.md#c)
 - [IDE CS50](./notes.md#ide-cs50)
-- [Compilando](./compilando)
+- [Compilando](./notes.md#compilando)
 - [Funções e argumentos](./notes.md#funções-e-argumentos)
   - [main, arquivos de cabeçalho](./notes.md#função-main-e-arquivos-de-cabeçalho)
-- [Ferramentas](./ferramentas)
+- [Ferramentas](./notes.md#ferramentas)
   - style50
   - check50
   - submit50
@@ -13,7 +13,7 @@
 - [Tipos, códigos de formato](./notes.md#tipos-de-dados-e-códigos-de-formatação)
 - [Operadores, limitações, truncamento](./notes.md#operadores-limites-e-truncamento)
 - [Variáveis, açúcar sintático](./notes.md#variáveis-açúcar-sintático)
-- [Condições](./condições)
+- [Condições](./notes.md#condições)
   - [Expressões booleanas, laços](./notes.md#expressões-booleanas-laços)
 - [Abstração](./notes.md#abstração)
   - [Mario](./notes.md#mario)
