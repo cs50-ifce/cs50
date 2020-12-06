@@ -1,23 +1,23 @@
 # Aula 1
 
-- C
-- CS50 IDE
-- Compilando
-- Funções e argumentos
-  - main, arquivos de cabeçalho
-- Ferramentas
+- [C](./notes.md#c)
+- [IDE CS50](./notes.md#ide-cs50)
+- [Compilando](./compilando)
+- [Funções e argumentos](./notes.md#funções-e-argumentos)
+  - [main, arquivos de cabeçalho](./notes.md#função-main-e-arquivos-de-cabeçalho)
+- [Ferramentas](./ferramentas)
   - style50
   - check50
   - submit50
-- Comandos
-- Tipos, códigos de formato
-- Operadores, limitações, truncamento
-- Variáveis, açúcar sintático
-- Condições
-  - Expressões booleanas, laços
-- Abstração
-  - Mario
-- Memória, imprecisão e estouro
+- [Comandos](./notes.md#comandos-linux)
+- [Tipos, códigos de formato](./notes.md#tipos-de-dados-e-códigos-de-formatação)
+- [Operadores, limitações, truncamento](./notes.md#operadores-limites-e-truncamento)
+- [Variáveis, açúcar sintático](./notes.md#variáveis-açúcar-sintático)
+- [Condições](./condições)
+  - [Expressões booleanas, laços](./notes.md#expressões-booleanas-laços)
+- [Abstração](./notes.md#abstração)
+  - [Mario](./notes.md#mario)
+- [Memória, imprecisão e estouro](./notes.md#memória-imprecisão-e-estouro)
 
 ## C
 - Hoje vamos aprender uma nova linguagem, **C**: uma linguagem de programação que tem todos os recursos do Scratch e muito mais, mas talvez um pouco menos amigável, pois é puramente em texto:

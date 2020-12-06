@@ -1,13 +1,13 @@
 # Aula 2
 
-- Compilando
-- Debugando
-- Memória
-- Arrays
-- Caracteres
-- Strings
-- Argumentos de linha de comando
-- Exemplo de Aplicação
+- [Compilando](./notes.md#compilando)
+- [Debugando](./notes.md#debugando)
+- [Memória](./notes.md#memória)
+- [Arrays](./notes.md#arrays)
+- [Caracteres](./notes.md#caracteres)
+- [Strings](./notes.md#strings)
+- [Argumentos de linha de comando](./notes.md#argumentos-de-linha-de-comando)
+- [Exemplo de Aplicação](./notes.md#exemplo-de-aplicação)
 
 ## Compilando
 - Da última vez, aprendemos a escrever nosso primeiro programa em C, imprimindo “olá, mundo” na tela.
@@ -86,7 +86,7 @@ main:                         # @main
   ```
   - Essas instruções são de baixo nível  e estão mais próximas das instruções binárias que o processador de um computador pode entender diretamente. Eles geralmente operam nos próprios bytes, em oposição a abstrações como nomes de variáveis.
 - A próxima etapa é pegar o código do **assembly** e traduzi-lo em instruções em binário, **montando-o**. As instruções em binário são chamadas de **código de máquina**, que a CPU de um computador pode executar diretamente.
-- A última etapa é a **linkedição**, onde versões compiladas anteriormente de bibliotecas que incluímos anteriormente, como `cs50.c`, são realmente combinadas com o binário de nosso programa. Portanto, acabamos com um arquivo binário, `a.out` ou `ola`, que é o código de máquina combinado para `ola.c`, `cs50.c` e stdio.c. (No IDE CS50, o código de máquina pré-compilado para `cs50.c` e stdio.c já foi instalado e o clang foi configurado para localizá-los e usá-los.)
+- A última etapa é a **linkedição**, onde versões compiladas anteriormente de bibliotecas que incluímos anteriormente, como `cs50.c`, são realmente combinadas com o binário de nosso programa. Portanto, acabamos com um arquivo binário, `a.out` ou `ola`, que é o código de máquina combinado para `ola.c`, `cs50.c` e `stdio.c`. (No IDE CS50, o código de máquina pré-compilado para `cs50.c` e `stdio.c` já foi instalado e o clang foi configurado para localizá-los e usá-los.)
 - Essas quatro etapas foram abstraídas ou simplificadas pelo `make`, portanto, tudo o que precisamos implementar é o código de nossos programas.
 
 ## Debugando
@@ -385,7 +385,7 @@ int main(void)
     printf("\n");
 }
 ```
-- Podemos mudar a condição do nosso laço para continuar independentemente do que `i` seja, mas apenas quando `s[i]! = '\0'`, ou quando o caractere na posição atual em `s` não for o caractere nulo.
+- Podemos mudar a condição do nosso laço para continuar independentemente do que `i` seja, mas apenas quando `s[i] != '\0'`, ou quando o caractere na posição atual em `s` não for o caractere nulo.
 - Podemos usar uma função que vem com a biblioteca de `strings` de C, `strlen`, para obter o comprimento da `string` para nosso laço:
 ```c
 #include <cs50.h>
