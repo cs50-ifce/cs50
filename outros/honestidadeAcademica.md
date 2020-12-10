@@ -6,7 +6,7 @@ A essencia de todo trabalho que você envia para este curso precisa ser **comple
 
 **Cláusula de arrependimento** Se você realizar uma ação que não é razoável mas trouxer este fato ao professor em até 72h desde o ocorrido, o professor poderá considerar alguma parte do que você enviou.
 
-Abaixo, são regras 'legais' que (não exaustiva) caracterizam atos que são consideradas razoáveis para a disciplina. Se tiver dúvidas sobre se uma ação é razoável, **não faça** até solicitar a aprovação do professor. Atos considerados não razoáveis serão tratados com rigor pelo professor. Estas regras podem incluir diminuição da nota ou até atribuição de nota zero, podendo chegar a medidas disciplinares no âmbito da instituição (de acordo com regras do ROD).
+Abaixo, são regras 'legais' que (não exaustiva) caracterizam atos que são consideradas razoáveis para a disciplina. Se tiver dúvidas sobre se uma ação é razoável, **não faça** até solicitar a aprovação do professor. Atos considerados não razoáveis serão tratados com rigor pelo professor. Estas regras podem incluir diminuição da nota ou até atribuição de nota zero, podendo chegar a medidas disciplinares no âmbito da instituição (de acordo com regras do ROD).
 
 ## Razoável
 - Discutir o material do curso com outros colegas para melhor entender.
