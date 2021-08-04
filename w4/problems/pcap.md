@@ -178,3 +178,5 @@ Com o vetor de ocorrências criado, cada vez que seu programa terminar de ler um
 1. Se o IP já está no vetor, o `contador` de ocorrências deve ser incrementado
 
 2. Se o IP não existe (como você descobre isto?). Ele deve ser adicionado e o `contador` deve ser iniciado em `1`.
+
+3. O arquivo deve ser enviado via classroom até a data limite indicada.
