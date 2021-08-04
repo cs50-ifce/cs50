@@ -109,7 +109,7 @@ Depois dos dados da camada de rede, podem haver informações extras da própria
 Para os fins deste trabalho, o restante das informações podem ser ignoradas.
 
 # Iniciando
-1. Baixe os arquivos `wireshark.c` e `wireshark.h` indicados pelo professor.
+1. Baixe os arquivos [`wireshark.c`](https://github.com/cs50-ifce/cs50/blob/main/w4/problems/wireshark.c) e [`wireshark.c`](https://github.com/cs50-ifce/cs50/blob/main/w4/problems/wireshark.c) clicando nos links correspondentes.
 
 2. Complete o arquivo `wireshark.c` de modo que o programa exija um argumento de linha de comando que deve ser o nome do arquivo `pcap` a ser aberto e lido.
 
