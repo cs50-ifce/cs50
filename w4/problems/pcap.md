@@ -88,21 +88,44 @@ typedef struct{
 
 Uma estrutura mais adequada seria como abaixo:
 ```c
-typedef struct{
-  unsigned char ver:4; // 4 bits para o campo de versão
-  unsigned char hl:4;  // 4 bits para o comprimento do cabeçalho
-  unsigned char tos;   // Type of Service
-  unsigned short len;  // Comprimento total da mensagem (IP+Transporte+Dados)
-  unsigned short id;   // Identificação
-  unsigned short flags:3;   // flags
-  unsigned short offset:13; // offset
-  unsigned char ttl; // Time to Live
-  unsigned char proto; // Protocolo de Transporte
-  unsigned short crc; // Checksum
-  unsigned ip_src;  // IP de origem
-  unsigned ip_dst;  // IP de destino
-}ip_hdr_t;
+#define IP1 2
+
+#define O32_LITTLE_ENDIAN  0x41424344ul
+#define O32_BIG_ENDIAN  0x44434241ul
+#define O32_HOST_ORDER ('ABCD')
+
+typedef struct {
+#if IP1 == 1
+    guint32 ignorar1;
+    guint32 ignorar2;
+    guint32 ignorar3;
+#else
+#if O32_HOST_ORDER == O32_LITTLE_ENDIAN
+    guint8 hl:4;
+    guint8 ver:4;
+//#elif O32_HOST_ORDER == O32_BIG_ENDIAN
+#else
+    guint8 ver:4;
+    guint8 hl:4;
+#endif
+    guint8 tos;
+    guint16 len;
+    guint16 id;
+    guint16 flags:3;
+    guint16 offset:13;
+    guint8 ttl;
+    guint8 proto;
+    guint16 crc;
+#endif
+    guint32 ip_src;
+    guint32 ip_dst;
+}ip_type;
 ```
+Onde a constante `IP1` é usada para escolher se iremos usar campos curingas (`ignorar1`, `ignorar2` e `ignorar3`) ou se vamos usar os campos reais do cabeçalho IP. Em uma condição real, essa variável não existiria e apenas os campos reais estariam presentes na estrutura. A construção `#if ...#else...#endif` faz com que um trecho de código ou outro seja compilado de acordo com a condição usada. Neste caso, se a variável `IP1` tiver sido definida com valor `1` usaremos os campos curinga, caso contrário usaremos os campos reais do cabeçalho IP.
+
+Por fim, as constantes `O32_LITTLE_ENDIAN`, `O32_BIG_ENDIAN` e `O32_HOST_ORDER` são usadas para verificar o _endianess_. O _**endianess**_ diz respeito a maneira como os _bytes_ (de um número inteiro, por exemplo), são armazenados na memória e em disco. Por exemplo, o número `1.094.861.636` pode ser escrito em hexadecimal como `0x41424344`. Quando em uma posição de memória, podemos pensar nos valores inteiros de 1 _byte_ `0x41`, `0x42`, `0x43` e `0x44` ou nos valores como caracteres `A`, `B`, `C` e `D`. Dependendo da arquitetura do computador, o número poderá ser armazenado como `0x41424344` (`ABCD`) ou `0x44434241` (`DCBA`). Portanto, é necessário realizar esta verificação para tratar corretamente números inteiros lidos de arquivos binários.
+
+As diretivas de pré-processamento como `#define`, `#undef`, `#if`, `#ifdef`, `#ifndef` `#elif` e `#endif` serão discutidas mais adiante.
 
 Depois dos dados da camada de rede, podem haver informações extras da própria camada de rede, seguidas de informações da camada de transporte (que pode ser TCP ou UDP) e, por fim, informações da camada de aplicação.
 
