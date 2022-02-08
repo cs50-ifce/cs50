@@ -1,197 +1,207 @@
-# Tideman
-Implemente um programa que executa a eleição *tideman*. O resultado deve ser como no exemplo abaixo.
+# Filtro (Less)
+Implemente um programa que aplica filtros em imagens BMP. O programa deve ser executado como abaixo:
 ```
-./tideman Alice Bob Charlie
-Number of voters: 5
-Rank 1: Alice
-Rank 2: Charlie
-Rank 3: Bob
-
-Rank 1: Alice
-Rank 2: Charlie
-Rank 3: Bob
-
-Rank 1: Bob
-Rank 2: Charlie
-Rank 3: Alice
-
-Rank 1: Bob
-Rank 2: Charlie
-Rank 3: Alice
-
-Rank 1: Charlie
-Rank 2: Alice
-Rank 3: Bob
-
-Charlie
+$ ./filter -r image.bmp reflected.bmp
 ```
 
-## Introdução
-Você já conhece as eleições majoritárias (*plurality*), que seguem um algoritmo muito simples para determinar o vencedor de uma eleição: cada eleitor tem um voto e o candidato com mais votos vence.
+# Fundamentação
 
-Mas o voto plural tem algumas desvantagens. O que acontece, por exemplo, em uma eleição com três candidatos, e as cédulas abaixo são lançadas?
+## Imagens bitmap
+Talvez a maneira mais simples de representar uma imagem seja com uma grade de _pixels_ (ou seja, pontos), cada um dos quais pode ser de uma cor diferente. Para imagens em preto e branco, precisamos, portanto, de 1 _bit_ por _pixel_, já que 0 pode representar preto e 1 pode representar branco, como mostrado a seguir.
 
-![Votos](./runoff.jpg)
+![Bitmap](./bitmap.png)
 
-Uma votação de majoritária declararia aqui um empate entre Alice e Bob, já que cada um tem dois votos. Mas esse é o resultado certo?
+Nesse sentido, então, uma imagem é apenas um _bitmap_ (ou seja, um mapa de _bits_). Para imagens mais coloridas, você simplesmente precisa de mais _bits_ por pixel. Um formato de arquivo (como BMP, JPEG ou PNG) que suporta “cores de 24 _bits_” usa 24 _bits_ por pixel. (BMP, na verdade, suporta cores de 1, 4, 8, 16, 24 e 32 _bits_.)
 
-Existe outro tipo de sistema de votação conhecido como **sistema de votação de escolha por classificação**. Em um sistema de escolha por classificação, os eleitores podem votar em mais de um candidato. Em vez de apenas votar na primeira escolha, eles podem classificar os candidatos em ordem de preferência. As cédulas resultantes podem, portanto, ter a aparência abaixo.
+Um BMP de 24 _bits_ usa 8 _bits_ para significar a quantidade de vermelho na cor de um _pixel_, 8 bits para significar a quantidade de verde na cor de um _pixel_ e 8 bits para significar a quantidade de azul na cor de um _pixel_. Se você já ouviu falar em cores RGB, bem, aí está: vermelho (Red), verde (Green), azul (Blue).
 
-![Votos](./runoff2.jpg)
+Se os valores R, G e B de algum _pixel_ em um BMP são, digamos, 0xff, 0x00 e 0x00 em hexadecimal, esse pixel é puramente vermelho, pois 0xff (também conhecido como 255 em decimal) implica "muito vermelho", Enquanto 0x00 e 0x00 implicam “sem verde” e “sem azul”, respectivamente.
 
-Aqui, cada eleitor, além de especificar seu primeiro candidato preferencial, também indicou sua segunda e terceira opções. E agora, o que antes era uma eleição empatada, pode ter um vencedor. A eleição foi originalmente empatada entre Alice e Bob, então Charlie estava fora da eleição. Mas o eleitor que escolheu Charlie preferiu Alice a Bob, então Alice poderia ser declarada vencedora.
+## Um Bitmap mais técnico
 
-A votação por escolha classificada também pode resolver outra desvantagem potencial da votação por pluralidade. Dê uma olhada nas seguintes cédulas.
+Lembre-se de que um arquivo é apenas uma sequência de bits, organizados de alguma forma. Um arquivo BMP de 24 bits, então, é essencialmente apenas uma sequência de bits, (quase) cada 24 dos quais representam a cor de algum pixel. Mas um arquivo BMP também contém alguns "metadados", informações como a altura e largura de uma imagem. Esses metadados são armazenados no início do arquivo na forma de duas estruturas de dados geralmente chamadas de "cabeçalhos", para não ser confundido com os arquivos de cabeçalho de C. (Aliás, esses cabeçalhos evoluíram com o tempo. Esse problema usa a versão mais recente do formato BMP da Microsoft, 4.0, que estreou com o Windows 95.)
 
-![Votos](./runoff3.jpg)
+O primeiro desses cabeçalhos, chamado BITMAPFILEHEADER, tem 14 bytes de comprimento. (Lembre-se de que 1 byte é igual a 8 bits.) O segundo desses cabeçalhos, chamado BITMAPINFOHEADER, tem 40 bytes de comprimento. Imediatamente após esses cabeçalhos está o bitmap real: uma matriz de bytes, triplos dos quais representam a cor de um pixel. No entanto, o BMP armazena esses triplos ao contrário (ou seja, como BGR), com 8 bits para o azul, seguido por 8 bits para o verde, seguido por 8 bits para o vermelho. (Alguns BMPs também armazenam todo o bitmap de trás para frente, com a linha superior de uma imagem no final do arquivo BMP. Mas armazenamos os BMPs desse conjunto de problemas conforme descrito aqui, com cada linha superior do bitmap primeiro e a linha inferior por último.) palavras, se convertêssemos o smiley de 1 bit acima em um smiley de 24 bits, substituindo o preto pelo vermelho, um BMP de 24 bits armazenaria esse bitmap da seguinte maneira, onde `0000ff` significa vermelho e `ffffff` significa branco; destacamos em vermelho todas as instâncias de `0000ff`.
 
-Quem deve ganhar esta eleição? Em uma votação majoritária em que cada eleitor escolhe apenas sua primeira preferência, Charlie vence esta eleição com quatro votos, em comparação com apenas três para Bob e dois para Alice. (Observe que, se você estiver familiarizado com o sistema de votação *runoff*, Charlie vence aqui com esse sistema também). Alice, no entanto, pode argumentar razoavelmente que ela deveria ser a vencedora da eleição em vez de Charlie: afinal, dos nove eleitores, a maioria (cinco deles) preferia Alice a Charlie, então a maioria das pessoas ficaria mais feliz com Alice como o vencedor em vez de Charlie.
+![Red Smile](./red_smile.png)
 
-Alice é, nesta eleição, a chamada “vencedora Condorcet” da eleição: a pessoa que teria vencido qualquer confronto direto com outro candidato. Se a eleição tivesse sido apenas Alice e Bob, ou apenas Alice e Charlie, Alice teria vencido.
+Como apresentamos esses pedaços da esquerda para a direita, de cima para baixo, em 8 colunas, você pode realmente ver o emoticon vermelho se der um passo para trás.
 
-O método de votação do **Tideman** (também conhecido como "pares classificados") é um método de votação de escolha por classificação que é garantido para produzir o vencedor "preferido" da eleição, se houver.
+Para ser claro, lembre-se de que um dígito hexadecimal representa 4 bits. Consequentemente, `ffffff` em hexadecimal realmente significa `111111111111111111111111` em binário.
 
-De um modo geral, o método Tideman funciona construindo um "grafo" de candidatos, onde uma seta (ou seja, aresta) do candidato A ao candidato B indica que o candidato A vence o candidato B em um confronto direto. O grafo para a eleição acima, então, seria parecido com o abaixo.
+Observe que você pode representar um bitmap como uma matriz bidimensional de pixels: onde a imagem é uma matriz de linhas, cada linha é uma matriz de pixels. Na verdade, é assim que escolhemos representar imagens de bitmap neste problema.
 
-![Votos](./tideman1.jpg)
+## Filtrando uma imagem
+O que significa filtrar uma imagem? Você pode pensar em filtrar uma imagem como pegar os pixels de alguma imagem original e modificar cada pixel de forma que um efeito específico seja aparente na imagem resultante.
 
-A seta de Alice para Bob significa que mais eleitores preferem Alice a Bob (5 preferem Alice, 4 preferem Bob). Da mesma forma, as outras setas significam que mais eleitores preferem Alice a Charlie e mais eleitores preferem Charlie a Bob.
+### Escala de cinza
 
-Olhando para este grafo, o método Tideman diz que o vencedor da eleição deve ser a "fonte" do grafo (ou seja, o candidato que não tem uma seta apontando para ele). Nesse caso, a fonte é Alice - Alice é a única que não tem uma seta apontando para ela, o que significa que ninguém é preferido frente a frente a Alice. Alice é, portanto, declarada a vencedora da eleição.
+Um filtro comum é o filtro “escala de cinza”, onde pegamos uma imagem e queremos convertê-la em preto e branco. Como isso funciona?
 
-É possível, no entanto, que quando as flechas forem puxadas, não haja um vencedor "preferido". Considere as cédulas abaixo.
+Lembre-se de que, se os valores de vermelho, verde e azul estiverem todos definidos como 0x00 (hexadecimal para 0), o pixel é preto. E se todos os valores forem configurados para 0xff (hexadecimal para 255), o pixel é branco. Contanto que os valores de vermelho, verde e azul sejam todos iguais, o resultado será tons de cinza variados ao longo do espectro preto e branco, com valores mais altos significando tons mais claros (mais próximos do branco) e valores mais baixos significando tons mais escuros (mais perto de Preto).
 
-![Votos](./tideman2.jpg)
+Portanto, para converter um pixel em tons de cinza, só precisamos ter certeza de que os valores de vermelho, verde e azul são todos iguais. Mas como sabemos que valor devemos criá-los? Bem, é provavelmente razoável esperar que se os valores originais de vermelho, verde e azul fossem todos muito altos, então o novo valor também deveria ser muito alto. E se os valores originais fossem todos baixos, o novo valor também deveria ser baixo.
 
-Entre Alice e Bob, Alice é preferida a Bob por uma margem de 7-2. Entre Bob e Charlie, Bob é o preferido a Charlie por uma margem de 5-4. Mas entre Charlie e Alice, Charlie é o preferido a Alice por uma margem de 6-3. Se desenharmos o grafo, não haverá fonte! Temos um ciclo de candidatos, onde Alice vence Bob que vence Charlie que vence Alice (muito parecido com um jogo de pedra-papel-tesoura). Nesse caso, parece que não há como escolher um vencedor.
+Na verdade, para garantir que cada pixel da nova imagem ainda tenha o mesmo brilho ou escuridão geral da imagem antiga, podemos obter a média dos valores de vermelho, verde e azul para determinar qual tom de cinza deve ser criado para o novo pixel.
 
-Para lidar com isso, o algoritmo Tideman deve ter cuidado para evitar a criação de ciclos no grafo candidato. Como isso faz? O algoritmo bloqueia nas arestas mais fortes primeiro, uma vez que essas são, sem dúvida, as mais significativas. Em particular, o algoritmo do Tideman especifica que as bordas da partida devem ser "travadas" no grafo, uma de cada vez, com base na "força" da vitória (quanto mais pessoas preferirem um candidato ao adversário, mais forte será a vitória). Desde que a aresta possa ser travada no grafo sem criar um ciclo, a aresta é adicionada; caso contrário, a borda é ignorada.
+Se você aplicar isso a cada pixel da imagem, o resultado será uma imagem convertida em tons de cinza.
 
-Como isso funcionaria no caso dos votos acima? Bem, a maior margem de vitória para um par é Alice derrotando Bob, já que 7 eleitores preferem Alice a Bob (nenhuma outra disputa direta tem um vencedor preferido por mais de 7 eleitores). Portanto, a seta Alice-Bob é travada no grafo primeiro. A próxima maior margem de vitória é a vitória de Charlie por 6-3 sobre Alice, de modo que a flecha é a próxima.
+### Sépia
+A maioria dos programas de edição de imagem oferece suporte a um filtro “sépia”, que dá às imagens uma aparência antiga, fazendo com que toda a imagem pareça um pouco marrom-avermelhada.
 
-A seguir vem a vitória de Bob por 5-4 sobre Charlie. Mas observe: se adicionássemos uma flecha de Bob a Charlie agora, criaríamos um ciclo! Uma vez que o grafo não permite ciclos, devemos pular esta borda e não adicioná-la ao grafo. Se houvesse mais setas a serem consideradas, olharíamos para as próximas, mas essa foi a última seta, então o grafo está completo.
+Uma imagem pode ser convertida em sépia tomando cada pixel e computando novos valores de vermelho, verde e azul com base nos valores originais dos três.
 
-Este processo passo a passo é mostrado abaixo, com o grafo final à direita.
+Existem vários algoritmos para converter uma imagem em sépia, mas, para esse problema, pediremos que você use o seguinte algoritmo. Para cada pixel, os valores da cor sépia devem ser calculados com base nos valores da cor original conforme a seguir.
 
-![Votos](./tideman3.jpg)
+```
+  sepiaRed = .393 * originalRed + .769 * originalGreen + .189 * originalBlue
+  sepiaGreen = .349 * originalRed + .686 * originalGreen + .168 * originalBlue
+  sepiaBlue = .272 * originalRed + .534 * originalGreen + .131 * originalBlue
+```
 
-Com base no grafo resultante, Charlie é a fonte (não há nenhuma seta apontando para Charlie), então Charlie é declarado o vencedor desta eleição.
 
-Colocado de maneira mais formal, o método de votação do Tideman consiste em três partes:
+Obviamente, o resultado de cada uma dessas fórmulas pode não ser um número inteiro, mas cada valor pode ser arredondado para o número inteiro mais próximo. Também é possível que o resultado da fórmula seja um número maior que 255, o valor máximo para um valor de cor de 8 bits. Nesse caso, os valores de vermelho, verde e azul devem ser limitados a 255. Como resultado, podemos garantir que os valores de vermelho, verde e azul resultantes serão números inteiros entre 0 e 255, inclusive.
 
-- *Contar*: Uma vez que todos os eleitores indicaram todas as suas preferências, determine, para cada par de candidatos, quem é o candidato preferido e com que margem ele é preferido.
-- *Classificar*: Classifique os pares de candidatos em ordem decrescente de força de vitória, onde a força de vitória é definida como o número de eleitores que preferem o candidato preferido.
-- *Travar*: começando com o par mais forte, passe pelos pares de candidatos em ordem e “trave” cada par no grafo candidato, desde que travar nesse par não crie um ciclo no grafo.
+## Espelhamento
+Alguns filtros também podem mover pixels. Refletir uma imagem, por exemplo, é um filtro em que a imagem resultante é o que você obteria colocando a imagem original na frente de um espelho. Portanto, quaisquer pixels no lado esquerdo da imagem devem terminar no lado direito e vice-versa.
 
-Uma vez que o grafo esteja completo, a fonte do grafo (aquele sem arestas apontando para ele) é o vencedor!
+Observe que todos os pixels originais da imagem original ainda estarão presentes na imagem refletida, mas esses pixels podem ter sido reorganizados para estar em um lugar diferente na imagem.
 
-## Começando
+### Borrão
+Existem várias maneiras de criar o efeito de desfocar ou suavizar uma imagem. Para este problema, usaremos o “desfoque de caixa”, que funciona pegando cada pixel e, para cada valor de cor, dando a ele um novo valor calculando a média dos valores de cor dos pixels vizinhos.
+
+Considere a seguinte grade de pixels, onde numeramos cada pixel.
+
+![Grid](./grid.png)
+
+O novo valor de cada pixel seria a média dos valores de todos os pixels que estão dentro de 1 linha e coluna do pixel original (formando uma caixa 3x3). Por exemplo, cada um dos valores de cor para o pixel 6 seria obtido pela média dos valores de cor originais dos pixels 1, 2, 3, 5, 6, 7, 9, 10 e 11 (observe que o próprio pixel 6 está incluído no média). Da mesma forma, os valores de cor para o pixel 11 seriam obtidos pela média dos valores de cor dos pixels 6, 7, 8, 10, 11, 12, 14, 15 e 16.
+
+Para um pixel ao longo da borda ou canto, como o pixel 15, ainda procuraríamos todos os pixels em 1 linha e coluna: neste caso, os pixels 10, 11, 12, 14, 15 e 16.
+
+### Bordas
+Em algoritmos de inteligência artificial para processamento de imagens, muitas vezes é útil detectar bordas em uma imagem: linhas na imagem que criam um limite entre um objeto e outro. Uma maneira de obter esse efeito é aplicando o operador Sobel à imagem.
+
+Assim como o desfoque da imagem, a detecção de borda também funciona pegando cada pixel e modificando-o com base na grade de pixels 3x3 que circunda esse pixel. Mas, em vez de apenas obter a média dos nove pixels, o [operador de Sobel](https://en.wikipedia.org/wiki/Sobel_operator) calcula o novo valor de cada pixel obtendo uma soma ponderada dos valores dos pixels ao redor. E como as arestas entre objetos podem ocorrer tanto na direção vertical quanto na horizontal, você calculará duas somas ponderadas: uma para detectar arestas na direção x e outra para detectar arestas na direção y. Em particular, você usará os dois “kernels” a seguir:
+![Sobel](./sobel.png)
+
+Como interpretar esses kernels? Resumindo, para cada um dos três valores de cor de cada pixel, calcularemos dois valores `Gx` e `Gy`. Para calcular `Gx` para o valor do canal vermelho de um pixel, por exemplo, pegaremos os valores vermelhos originais para os nove pixels que formam uma caixa `3x3` ao redor do pixel, multiplicaremos cada um deles pelo valor correspondente no kernel `Gx` e tomaremos a soma dos valores resultantes.
+
+Por que esses valores específicos para o kernel? Na direção `Gx`, por exemplo, estamos multiplicando os pixels à direita do pixel alvo por um número positivo e multiplicando os pixels à esquerda do pixel alvo por um número negativo. Quando fazemos a soma, se os pixels da direita tiverem uma cor semelhante aos pixels da esquerda, o resultado será próximo de 0 (os números se cancelam). Mas se os pixels à direita forem muito diferentes dos pixels à esquerda, o valor resultante será muito positivo ou muito negativo, indicando uma mudança de cor que provavelmente é resultado de um limite entre os objetos. E um argumento semelhante é válido para calcular arestas na direção y.
+
+Usando esses kernels, podemos gerar um valor `Gx` e `Gy` para cada um dos canais vermelho, verde e azul para um pixel. Mas cada canal pode assumir apenas um valor, não dois: então precisamos de alguma maneira de combinar `Gx` e `Gy` em um único valor. O algoritmo do filtro Sobel combina `Gx` e `Gy` em um valor final calculando a raiz quadrada de `Gx² + Gy²`. E como os valores de canal só podem assumir valores inteiros de 0 a 255, certifique-se de que o valor resultante seja arredondado para o inteiro mais próximo e limitado a 255!
+
+E quanto ao manuseio de pixels na borda ou no canto da imagem? Existem muitas maneiras de lidar com pixels na borda, mas para os propósitos deste problema, pediremos que você trate a imagem como se houvesse uma borda preta sólida de 1 pixel ao redor da borda da imagem: portanto, tentar acessar um pixel além da borda da imagem deve ser tratado como um pixel preto sólido (valores de 0 para cada vermelho, verde e azul). Isso efetivamente ignorará esses pixels de nossos cálculos de `Gx` e `Gy`.
+
+## Iniciando
+
 Veja como baixar o "código de distribuição" deste problema (ou seja, código inicial) em seu próprio CS50 IDE. Faça login no CS50 IDE e, em uma janela de terminal, execute cada um dos itens abaixo.
 
 - Execute `cd` para garantir que você está em `~/` (ou seja, seu diretório inicial).
-- Execute `cd pset3` para mudar para (ou seja, abrir) seu diretório `pset3` que já deveria existir. Caso o diretório não exista, ele pode ser criado com o comando `mkdir pset3`
-- Execute `mkdir tideman` para fazer (ou seja, criar) um diretório chamado `tideman` em seu diretório `pset3`.
-- Execute `cd tideman` para mudar para (ou seja, abrir) esse diretório.
-- Execute `wget https://cdn.cs50.net/2019/fall/psets/3/tideman/tideman.c`
-para baixar o código de distribuição deste problema.
-- Execute `ls`. Você deve ver o código de distribuição deste problema, em um arquivo chamado `tideman.c`.
+- Execute `mkdir pset4` para fazer (ou seja, criar) um diretório chamado pset4 em seu diretório inicial.
+- Execute `cd pset4` para mudar para (ou seja, abrir) esse diretório.
+- Execute wget ```https://cdn.cs50.net/2019/fall/psets/4/filter/less/filter.zip``` para baixar um arquivo ZIP (compactado) com a distribuição desse problema.
+- Execute `unzip filter.zip` para descompactar esse arquivo.
+- Execute `rm filter.zip` seguido por `yes` ou `y` para excluir o arquivo ZIP (opcional).
+- Repita os três passos anteriores para o endereço ```https://cdn.cs50.net/2019/fall/psets/4/filter/less/filter.zip```.
+- Execute `ls`. Você deve ver um diretório chamado `filter`, que estava dentro desse arquivo ZIP.
+- Execute `cd filter` para mudar para esse diretório.
+- Execute `ls`. Você deve ver a distribuição deste problema, incluindo `bmp.h`, `filter.c`, `helpers.h`, `helpers.c` e `Makefile`. Você também verá um diretório chamado imagens, com algumas imagens de bitmap de amostra.
 
-## Compreensão
-Vamos abrir o `tideman.c` para dar uma olhada no que já está lá.
+## Entendendo
 
-Primeiro, observe a matriz `preferences`. Cada inteiro em `preferences[i][j]` representara o número de eleitores que preferem o candidato i ao candidato j.
+Vamos agora dar uma olhada em alguns dos arquivos fornecidos a você como código de distribuição para entender o que há dentro deles.
 
-O arquivo também define outra matriz bidimensional, chamada `locked`, que representará o grafo de candidato. `locked` é um array booleano, portanto, `locked[i][j]` sendo verdadeiro representa a existência de uma aresta apontando do candidato i para o candidato j; falso significa que não há aresta. (Se estiver curioso, esta representação de um grafo é conhecida como uma “matriz de adjacência”).
+### bmp.h
 
-Em seguida, vem uma `struct` chamada `pair`, usada para representar um par de candidatos: cada par inclui o índice de candidato do vencedor e o índice de candidato do perdedor.
+Abra o `bmp.h` (clicando duas vezes nele no navegador de arquivos) e dê uma olhada.
 
-Os próprios candidatos são armazenados na matriz `candidates`, que é uma matriz de strings que representa os nomes de cada um dos candidatos. Há também uma matriz de `pairs`, que representará todos os pares de candidatos (para os quais um é preferido em relação ao outro) na eleição.
+Você verá as definições dos cabeçalhos que mencionamos (`BITMAPINFOHEADER` e `BITMAPFILEHEADER`). Além disso, esse arquivo define `BYTE`, `DWORD`, `LONG` e `WORD`, tipos de dados normalmente encontrados no mundo da programação do Windows. Observe como eles são apenas apelidos para primitivos com os quais você (espero) já esteja familiarizado. Parece que `BITMAPFILEHEADER` e `BITMAPINFOHEADER` fazem uso desses tipos.
 
-O programa também possui duas variáveis ​​globais: `pair_count` e `candidate_count`, representando o número de pares e o número de candidatos na matriz `pairs`, respectivamente.
+Talvez o mais importante para você, este arquivo também define uma estrutura chamada `RGBTRIPLE` que, simplesmente, "encapsula" três bytes: um azul, um verde e um vermelho (a ordem, lembre-se, em que esperamos encontrar triplos RGB realmente em disco).
 
-Agora na função `main`. Observe que, após determinar o número de candidatos, o programa percorre o grafo de bloqueado e inicialmente define todos os valores como `false`, o que significa que nosso grafo de inicial não terá arestas.
+Por que essas estruturas são úteis? Bem, lembre-se de que um arquivo é apenas uma sequência de bytes (ou, no final das contas, bits) no disco. Mas esses bytes são geralmente ordenados de forma que os primeiros representem algo, os próximos representem outra coisa e assim por diante. Os “formatos de arquivo” existem porque o mundo padronizou o significado de bytes. Agora, poderíamos simplesmente ler um arquivo do disco para a RAM como um grande array de bytes. E poderíamos apenas lembrar que o byte em `array[i]` representa uma coisa, enquanto o byte em `array[j]` representa outra. Mas por que não dar nomes a alguns desses bytes para que possamos recuperá-los da memória com mais facilidade? Isso é precisamente o que as estruturas em `bmp.h` nos permitem fazer. Em vez de pensar em algum arquivo como uma longa sequência de bytes, podemos pensar nele como uma sequência de estruturas.
 
-Em seguida, o programa percorre todos os eleitores e coleta suas preferências em uma matriz chamada `ranks` (por meio de uma chamada para `vote`), onde `ranks[i]` é o índice do candidato que é a i-ésima preferência pelo eleitor. Essas classificações são passadas para a função `record_preference`, cujo trabalho é pegar essas classificações e atualizar a variável global `preferences`.
+### filter.c
 
-Uma vez que todos os votos estão registrados, os pares de candidatos são adicionados ao array `pairs` por meio de uma chamada para `add_pairs`, classificados por meio de uma chamada para `sort_pairs` e bloqueados no grafo de por meio de uma chamada para `lock_pairs`. Finalmente, `print_winner` é chamada para imprimir o nome do vencedor da eleição!
+Agora, vamos abrir `filter.c`. Este arquivo já foi escrito para você, mas há alguns pontos importantes que devem ser observados aqui.
 
-Mais abaixo no arquivo, você verá que as funções `vote`, `record_preference`, `add_pairs`, `sort_pairs`, `lock_pairs` e `print_winner` foram deixadas deixadas em branco. Você deverá programa-las!
+Primeiro, observe a definição de filtros na linha 11. Essa `string` informa ao programa quais são os argumentos de linha de comando permitidos para o programa: `b`, `g`, `e` e `r`. Cada um deles especifica um filtro diferente que podemos aplicar às nossas imagens: desfoque, tons de cinza, reflexo e sépia.
+
+As próximas linhas abrem um arquivo de imagem, certifique-se de que é realmente um arquivo BMP e leia todas as informações de pixel em uma matriz 2D chamada imagem.
+
+Role para baixo até a instrução `switch` que começa na linha 102. Observe que, dependendo do filtro que escolhemos, uma função diferente é chamada: se o usuário escolher o filtro `b`, o programa chama a função de desfoque; se `g`, a escala de cinza é chamada; se `r`, então reflete é chamado; e se `e`, sobel é chamado. Observe também que cada uma dessas funções toma como argumentos a altura da imagem, a largura da imagem e a matriz 2D de pixels.
+
+Estas são as funções que você (em breve!) Implementará. Como você pode imaginar, o objetivo é que cada uma dessas funções edite o array 2D de pixels de forma que o filtro desejado seja aplicado à imagem.
+
+As linhas restantes do programa pegam a imagem resultante e as gravam em um novo arquivo de imagem.
+
+### helpers.h
+
+A seguir, dê uma olhada em `helpers.h`. Este arquivo é bastante curto e fornece apenas os protótipos de funções para as funções que você viu anteriormente.
+
+Aqui, observe o fato de que cada função recebe uma matriz 2D chamada `image` como argumento, onde `image` é uma matriz de altura com várias linhas, e cada linha é ela própria outra matriz de largura de muitos `RGBTRIPLE`s. Portanto, se a `image` representa a imagem inteira, a `image[0]` representa a primeira linha e a `image[0][0]` representa o pixel no canto superior esquerdo da imagem.
+
+### helpers.c
+Agora, abra `helpers.c`. É aqui que pertence a implementação das funções declaradas em `helpers.h`. Mas note que, agora, as implementações estão faltando! **Esta parte é com você**.
+
+### Makefile
+
+Finalmente, vamos dar uma olhada no `Makefile`. Este arquivo especifica o que deve acontecer quando executamos um comando de terminal como `make filter`. Enquanto os programas que você pode ter escrito antes estavam confinados a apenas um arquivo, o filtro parece usar vários arquivos: filter.c, bmp.h, `helpers.h` e `helpers.c`. Então, vamos precisar dizer ao `make` como compilar este arquivo.
+
+Tente compilar o filtro para você indo para o seu terminal e executando
+```
+$ make filter
+```
+
+Então, você pode executar o programa com o comando:
+```
+$ ./filter -g images/yard.bmp out.bmp
+```
+que obtém a imagem em `images/yard.bmp` e gera uma nova imagem chamada `out.bmp` após executar os pixels por meio da função de tons de cinza. a função `grayscale` ainda não faz nada, portanto, a imagem de saída deve ser igual ao jardim original.
 
 ## Especificação
-Conclua a implementação de tideman.c de forma que simule uma eleição Tideman.
 
-- Conclua a função de `vote`.
-  - A função recebe argumentos `rank`, `name` e `ranks`. Se `name` corresponder ao nome de um candidato válido, você deve atualizar a matriz `ranks` para indicar que o eleitor tem o candidato como sua preferência de classificação (onde 0 é a primeira preferência, 1 é a segunda preferência, etc.)
-  - Lembre-se de que as `ranks[i]` aqui representam a i-ésima preferência do usuário.
-  - A função deve retornar `true` se a classificação foi registrada com sucesso e `false` caso contrário (se, por exemplo, `name` não for o nome de um dos candidatos).
-  - Você pode presumir que dois candidatos não terão o mesmo nome.
--  Conclua a função `record_preferences`.
-    - A função é chamada uma vez para cada eleitor e leva como argumento a matriz `ranks` (lembre-se de que `ranks[i]` é a i-ésima preferência do eleitor, onde `ranks[0]` é a primeira preferência.
-    - A função deve atualizar a matriz global `ranks` para adicionar as preferências do eleitor atual. Lembre-se de que as `preferences[i][j]` devem representar o número de eleitores que preferem o candidato i ao candidato j.
-    - Você pode presumir que cada eleitor classificará cada um dos candidatos.
-- Complete a função `add_pairs`.
-  - A função deve adicionar todos os pares de candidatos onde um candidato é preferido à matriz de pares. Um par de candidatos empatados (um não tem preferência sobre o outro) não deve ser adicionado à matriz.
-  - A função deve atualizar a variável global `pair_count` para ser o número de pares de candidatos. (Os pares devem, portanto, ser armazenados entre os pares `[0]` e os pares `[pair_count - 1]`, inclusive).
-- Complete a função `sort_pairs`.
-  - A função deve ordenar a matriz `pairs` em ordem decrescente de força de vitória, onde força de vitória é definida como o número de eleitores que preferem o candidato preferido. Se vários pares tiverem a mesma força de vitória, você pode assumir que a ordem não importa.
-- Conclua a função `lock_pairs`.
-  - A função deve criar o grafo `locked`, adicionando todas as arestas em ordem decrescente de força de vitória, desde que a aresta não crie um ciclo.
-- Conclua a função `print_winner`.
-  - A função deve imprimir o nome do candidato que é a fonte do grafo. Você pode presumir que não haverá mais de uma fonte.
+Implemente as funções em `helpers.c` de forma que um usuário possa aplicar filtros de escala de cinza, sépia, reflexão ou desfoque às suas imagens.
 
-Você não deve modificar nada mais em `tideman.c`, exceto as implementações das funções `vote`, `record_preferences`, `add_pairs`, `sort_pairs`, `lock_pairs` e `print_winner` (e a inclusão de arquivos de cabeçalho adicionais, se desejar). Você tem permissão para adicionar funções extras ao `tideman.c`, desde que não altere as declarações de nenhuma das funções existentes.
+- A função `grayscale` deve pegar uma imagem e transformá-la em uma versão em preto e branco da mesma imagem.
+- A função de `reflect` deve pegar uma imagem e refleti-la horizontalmente.
+- A função de `blur` deve pegar uma imagem e transformá-la em uma versão desfocada da mesma imagem.
+- Finalmente, a função `edges` deve pegar uma imagem e destacar a borda entre objetos, de acordo com o operador de Sobel.
 
-## Uso
-Seu programa deveria se comportar como no exemplo abaixo:
+Você não deve modificar nenhuma das assinaturas de função, nem deve modificar nenhum outro arquivo além de `helpers.c`.
 
-```
-./tideman Alice Bob Charlie
-Number of voters: 5
-Rank 1: Alice
-Rank 2: Charlie
-Rank 3: Bob
+# Uso
+Seu programa deveria funcionar executando as linhas abaixo:
 
-Rank 1: Alice
-Rank 2: Charlie
-Rank 3: Bob
+```$ ./filter -g infile.bmp outfile.bmp```
 
-Rank 1: Bob
-Rank 2: Charlie
-Rank 3: Alice
+```$ ./filter -r infile.bmp outfile.bmp```
 
-Rank 1: Bob
-Rank 2: Charlie
-Rank 3: Alice
+```$ ./filter -b infile.bmp outfile.bmp```
 
-Rank 1: Charlie
-Rank 2: Alice
-Rank 3: Bob
+```$ ./filter -e infile.bmp outfile.bmp```
 
-Charlie
-```
+## Dica
+Os valores dos componentes `rgbtRed`, `rgbtGreen` e `rgbtBlue` de um pixel são todos inteiros, então certifique-se de arredondar quaisquer números de ponto flutuante para o inteiro mais próximo ao atribuí-los a um valor de pixel!
+
 
 ## Testando seu código
 
-Certifique-se de testar seu código para garantir que ele trata corretamente...
-
-- Uma eleição com qualquer número de candidatos (até o MAX de 9)
-- Votar em um candidato pelo nome
-- Votos inválidos para candidatos que não estão na cédula
-- Imprimir o vencedor da eleição, se houver apenas um
+Certifique-se de testar seu código nas imagens de bitmap fornecidas
 
 Execute o comando abaixo para verificar a **corretude** do seu código. Mas tente compilar e testar antes de executar o comando
 ```
-check50 cs50/problems/2020/x/tideman
+check50 cs50/problems/2020/x/filter/less
 ```
 
 Execute o comando abaixo para garantir a **estilização** do código
 ```
-style50 tideman.c
+style50 helpers.c
 ```
 
 
 ## Enviando seu código
 Execute o comando abaixo, logando com seu **nome de usuário** do GitHub, para enviar seu código. Por questões de segurança, asteríscos serão exibidos em vez dos caracteres da sua senha
 ```
-submit50 cs50/problems/2020/x/tideman
+submit50 cs50/problems/2020/x/filter/more
 ```
