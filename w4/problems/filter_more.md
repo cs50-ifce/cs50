@@ -46,23 +46,7 @@ Na verdade, para garantir que cada pixel da nova imagem ainda tenha o mesmo bril
 
 Se você aplicar isso a cada pixel da imagem, o resultado será uma imagem convertida em tons de cinza.
 
-### Sépia
-A maioria dos programas de edição de imagem oferece suporte a um filtro “sépia”, que dá às imagens uma aparência antiga, fazendo com que toda a imagem pareça um pouco marrom-avermelhada.
-
-Uma imagem pode ser convertida em sépia tomando cada pixel e computando novos valores de vermelho, verde e azul com base nos valores originais dos três.
-
-Existem vários algoritmos para converter uma imagem em sépia, mas, para esse problema, pediremos que você use o seguinte algoritmo. Para cada pixel, os valores da cor sépia devem ser calculados com base nos valores da cor original conforme a seguir.
-
-```
-  sepiaRed = .393 * originalRed + .769 * originalGreen + .189 * originalBlue
-  sepiaGreen = .349 * originalRed + .686 * originalGreen + .168 * originalBlue
-  sepiaBlue = .272 * originalRed + .534 * originalGreen + .131 * originalBlue
-```
-
-
-Obviamente, o resultado de cada uma dessas fórmulas pode não ser um número inteiro, mas cada valor pode ser arredondado para o número inteiro mais próximo. Também é possível que o resultado da fórmula seja um número maior que 255, o valor máximo para um valor de cor de 8 bits. Nesse caso, os valores de vermelho, verde e azul devem ser limitados a 255. Como resultado, podemos garantir que os valores de vermelho, verde e azul resultantes serão números inteiros entre 0 e 255, inclusive.
-
-## Espelhamento
+### Espelhamento
 Alguns filtros também podem mover pixels. Refletir uma imagem, por exemplo, é um filtro em que a imagem resultante é o que você obteria colocando a imagem original na frente de um espelho. Portanto, quaisquer pixels no lado esquerdo da imagem devem terminar no lado direito e vice-versa.
 
 Observe que todos os pixels originais da imagem original ainda estarão presentes na imagem refletida, mas esses pixels podem ter sido reorganizados para estar em um lugar diferente na imagem.
@@ -99,7 +83,7 @@ Veja como baixar o "código de distribuição" deste problema (ou seja, código 
 - Execute `cd` para garantir que você está em `~/` (ou seja, seu diretório inicial).
 - Execute `mkdir pset4` para fazer (ou seja, criar) um diretório chamado pset4 em seu diretório inicial.
 - Execute `cd pset4` para mudar para (ou seja, abrir) esse diretório.
-- Execute wget ```https://cdn.cs50.net/2019/fall/psets/4/filter/less/filter.zip``` para baixar um arquivo ZIP (compactado) com a distribuição desse problema.
+- Execute ```wget https://cdn.cs50.net/2020/fall/psets/4/filter/more/filter.zip``` para baixar um arquivo ZIP (compactado) com a distribuição desse problema.
 - Execute `unzip filter.zip` para descompactar esse arquivo.
 - Execute `rm filter.zip` seguido por `yes` ou `y` para excluir o arquivo ZIP (opcional).
 - Repita os três passos anteriores para o endereço ```https://cdn.cs50.net/2019/fall/psets/4/filter/less/filter.zip```.
