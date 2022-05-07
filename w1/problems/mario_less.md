@@ -1,5 +1,36 @@
 # Mario
 
+# Começando
+Abra o [VS Code](code.cs50.io).
+
+Clique no janela de terminal na parte de baixo da tela e execute o comando `cd`. Você verá um "prompt" como abaixo:
+```
+$
+```
+
+Execute o comando abaixo
+```
+wget https://cdn.cs50.net/2021/fall/psets/1/mario-less.zip
+```
+e tecle ENTER. Em seguida use o comando abaixo para descompactar o arquivo:
+```
+unzip mario-less.zip
+```
+e o comando abaixo para remover o arquivo `mario-less.zip`:
+```
+rm -f mario-less.zip
+```
+
+Por fim, execute o comando `ls` e você verá uma pasta chamada `mario-less`. Então execute o comando
+```
+cd mario-less
+```
+e você verá o prompt
+```
+mario-less/ $
+```
+onde você poderá executar o comando `ls` mais uma vez. Você deverá ver o arquivo `mario-less.c`.
+
 ## World 1-1
 
 No final da fase (world) 1-1 do jogo **Super Mario's Brothers**, o Mario precisa subir
@@ -152,7 +183,18 @@ Agora que seu programa está aceitando apenas entradas válidas, tente exibir um
 ```
 
 ## Pirâmide alinhada à direita
-Agora altere seu programa para construir a pirâmide correta
+Agora altere seu programa para reconstruir a pirâmide. Você poderá deslocar os _hashes_, `#`, para a direita imprimindo pontos (`.`). Sua pirâmide se parecerá como abaixo:
+```
+.......#
+......##
+.....###
+....####
+...#####
+..######
+.#######
+########
+```
+
 
 
 ## Teste seu código

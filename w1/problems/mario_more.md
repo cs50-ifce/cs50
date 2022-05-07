@@ -1,5 +1,36 @@
 # Mario
 
+# Começando
+Abra o [VS Code](code.cs50.io).
+
+Clique no janela de terminal na parte de baixo da tela e execute o comando `cd`. Você verá um "prompt" como abaixo:
+```
+$
+```
+
+Execute o comando abaixo
+```
+wget https://cdn.cs50.net/2021/fall/psets/1/mario-more.zip
+```
+e tecle ENTER. Em seguida use o comando abaixo para descompactar o arquivo:
+```
+unzip mario-more.zip
+```
+e o comando abaixo para remover o arquivo `mario-more.zip`:
+```
+rm -f mario-more.zip
+```
+
+Por fim, execute o comando `ls` e você verá uma pasta chamada `mario-more`. Então execute o comando
+```
+cd mario-more
+```
+e você verá o prompt
+```
+mario-more/ $
+```
+onde você poderá executar o comando `ls` mais uma vez. Você deverá ver o arquivo `mario-more.c`.
+
 ## World 1-1
 
 No final da fase (world) 1-1 do jogo **Super Mario's Brothers**, o Mario precisa subir

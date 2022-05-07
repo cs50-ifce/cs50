@@ -1,4 +1,37 @@
 # Credit
+
+# Começando
+Abra o [VS Code](code.cs50.io).
+
+Clique no janela de terminal na parte de baixo da tela e execute o comando `cd`. Você verá um "prompt" como abaixo:
+```
+$
+```
+
+Execute o comando abaixo
+```
+wget https://cdn.cs50.net/2021/fall/psets/1/credit.zip
+```
+e tecle ENTER. Em seguida use o comando abaixo para descompactar o arquivo:
+```
+unzip credit.zip
+```
+e o comando abaixo para remover o arquivo `credit.zip`:
+```
+rm -f credit.zip
+```
+
+Por fim, execute o comando `ls` e você verá uma pasta chamada `credit`. Então execute o comando
+```
+cd credit
+```
+e você verá o prompt
+```
+credit/ $
+```
+onde você poderá executar o comando `ls` mais uma vez. Você deverá ver o arquivo `credit.c`.
+
+# Cartões de Crédito
 Um cartão de crédito (ou débito), é claro, é um cartão de plástico com o qual
 você pode pagar por bens e serviços. Impresso nesse cartão está um número que
 também é armazenado em um banco de dados em algum lugar, de modo que quando seu
@@ -51,7 +84,15 @@ que multiplicando por 2 e somando tudo
 ```
 2x4 + 2x0 + 2x6 + 2x0 + 2x0 + 2x0 + 2x0 + 2x1
 ```
-que resulta em `13`.
+que resulta em
+```
+8 + 0 + 0 + 0 + 0 + 12 + 0 + 2
+```
+E, somando os dígitos dos números, obtemos
+```
+8 + 0 + 0 + 0 + 0 + 1 + 2 + 0 + 2 = 13
+```
+
 
 2. Agora, somamos 13 com a soma dos outros números que não foram multiplicados por 2.
 ```
