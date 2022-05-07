@@ -171,7 +171,7 @@ Se tudo funciona como correto, então:
 
 Execute o comando `check50` como abaixo
 ```
-check50 cs50/problems/2021/x/mario/less
+check50 cs50/problems/2022/x/mario/less
 ```
 
 Para verificar se seu código está devidamente **estilizado**, utilize o comando `style50`
@@ -194,5 +194,5 @@ substitua os pontos com suas informações.
 ## Enviando seu programa
 Uma vez que você tenha verificado o funcionamento, `check50` e a estilização do código, `style50`, execute o comando abaixo, logando com sua conta do GitHub através de **nome de usuário** e **senha**. Por questões de segurança, você verá asteríscos (*) em vez dos caracteres da sua senha.
 ```
-submit50 cs50/problems/2021/x/mario/less
+submit50 cs50/problems/2022/x/mario/less
 ```
