@@ -95,15 +95,15 @@ Observe também que, lembrando a ideia de abstração, cada uma de suas funçõe
 Seu programa deveria se comportar como abaixo
 ```
 $ ./cash
-Change owed: 0.41
+Change owed: 41
 4
 ```
 
 ```
 $ ./cash
-Change owed: -0.41
+Change owed: 41
 Change owed: foo
-Change owed: 0.41
+Change owed: 41
 4
 ```
 
