@@ -8,6 +8,44 @@ plaintext:  HELLO
 ciphertext: URYYB
 ```
 
+# Iniciando
+Abra o [VS Code](https://code.cs50.io/).
+
+Inicie clicando na janela de terminal e executando o comando `cd`. Você verá o prompt abaixo
+```
+$ 
+``` 
+
+Ainda no terminal, digite o comando
+```
+wget https://cdn.cs50.net/2021/fall/psets/2/caesar.zip
+```
+e aperte ENTER para baixar o arquivo `ceasar.zip`. Em seguida, execute o comando abaixo
+```
+unzip ceasar.zip
+```
+para criar uma pasta chamada `ceasar`. Agora que você não precisa mais do arquivo `ceasar.zip`, você pode apagá-lo com o comando abaixo
+```
+rm ceasar.zip
+```
+e respondendo `y` ou `Y` e apertando ENTER para confirmar.
+
+Agora, entre na pasta criada com
+```
+cd ceasar
+```
+e digite o comando 
+```
+ls
+```
+Você deverá ver o arquivo `ceasar.c`. Execute o comando
+```
+code ceasar.c
+```
+para começar seu trabalho.
+
+
+# Descrição
 Supostamente, César (sim, o imperador César) usou para "criptografar" (isto é, esconder uma mensagem de modo a poder recuperá-la posteriormente) mensagens deslocando cada letra por um valor fixo. Por exemplo, escrevendo B em vez de A, C no lugar de B, D em vez de C e assim por diante até que A seja usado no lugar de Z. Assim, a palavra `HELLO` poderia ser escrita como `IFMMP`. Depois de receber uma mensagem "criptografada", bastava deslocar as letras na direção oposta para obter a mensagem original.
 
 O segredo deste "sistema de criptografia" é que apenas César e seu correspondente conheciam o segredo, isto é, eles estavam deslocando cada letra. Este é um sistema que, claramente, não é seguro para os dias atuais, mas se você foi o primeiro a inventar tal sistema ele seria seguro.
@@ -186,7 +224,7 @@ Usage: ./caesar key
 
 Execute o comando abaixo para verificar a **corretude** do seu código. Mas tente compilar e testar antes de executar o comando
 ```
-check50 cs50/problems/2020/x/caesar
+check50 cs50/problems/2022/x/caesar
 ```
 
 Execute o comando abaixo para garantir a **estilização** do código
@@ -195,20 +233,10 @@ style50 caesar.c
 ```
 
 
-## Informações adicionais e OBRIGATÓRIAS
-As primeiras linhas do seu código devem consistir de um comentário de várias
-linhas contendo sua matrícula, seu nome completo e seu nome de usuário do github
-como no exemplo abaixo.
-```
-MATRÍCULA: ................. 
-NOME: ..................
-USUÁRIO: ...............
-```
-substitua os pontos com suas informações.
 
 ## Enviando seu programa
 Uma vez que você tenha verificado o funcionamento, `check50` e a estilização do código, `style50`, execute o comando abaixo, logando com sua conta do GitHub através de **nome de usuário** e **senha**. Por questões de segurança, você verá asteríscos (*) em vez dos caracteres da sua senha.
 
 ```
-submit50 cs50/problems/2020/x/caesar
+submit50 cs50/problems/2022/x/caesar
 ```
