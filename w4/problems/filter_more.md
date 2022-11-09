@@ -80,16 +80,35 @@ E quanto ao manuseio de pixels na borda ou no canto da imagem? Existem muitas ma
 
 Veja como baixar o "código de distribuição" deste problema (ou seja, código inicial) em seu próprio CS50 IDE. Faça login no CS50 IDE e, em uma janela de terminal, execute cada um dos itens abaixo.
 
-- Execute `cd` para garantir que você está em `~/` (ou seja, seu diretório inicial).
-- Execute `mkdir pset4` para fazer (ou seja, criar) um diretório chamado pset4 em seu diretório inicial.
-- Execute `cd pset4` para mudar para (ou seja, abrir) esse diretório.
-- Execute ```wget https://cdn.cs50.net/2020/fall/psets/4/filter/more/filter.zip``` para baixar um arquivo ZIP (compactado) com a distribuição desse problema.
-- Execute `unzip filter.zip` para descompactar esse arquivo.
-- Execute `rm filter.zip` seguido por `yes` ou `y` para excluir o arquivo ZIP (opcional).
-- Repita os três passos anteriores para o endereço ```https://cdn.cs50.net/2019/fall/psets/4/filter/less/filter.zip```.
-- Execute `ls`. Você deve ver um diretório chamado `filter`, que estava dentro desse arquivo ZIP.
-- Execute `cd filter` para mudar para esse diretório.
-- Execute `ls`. Você deve ver a distribuição deste problema, incluindo `bmp.h`, `filter.c`, `helpers.h`, `helpers.c` e `Makefile`. Você também verá um diretório chamado imagens, com algumas imagens de bitmap de amostra.
+Execute `cd` para garantir que você está em `~/` (ou seja, seu diretório inicial).
+
+Execute
+```
+wget https://cdn.cs50.net/2021/fall/psets/4/filter-more.zip
+```
+para baixar um arquivo ZIP (compactado) com a distribuição desse problema.
+
+Execute
+```
+unzip filter-more.zip
+```
+para descompactar esse arquivo e criar a pasta `filter-more`.
+
+Execute
+```
+rm filter-more.zip
+```
+seguido por `yes` ou `y` para excluir o arquivo ZIP (opcional).
+
+Execute
+```cd filter-more```
+para mudar para esse diretório. Seu prompt mudará para
+```
+filter-more/ $
+```
+
+Execute `ls`. Você deve ver a distribuição deste problema, incluindo `bmp.h`, `filter.c`, `helpers.h`, `helpers.c` e `Makefile`. Você também verá um diretório chamado imagens, com algumas imagens de bitmap de amostra.
+
 
 ## Entendendo
 
@@ -175,7 +194,7 @@ Certifique-se de testar seu código nas imagens de bitmap fornecidas
 
 Execute o comando abaixo para verificar a **corretude** do seu código. Mas tente compilar e testar antes de executar o comando
 ```
-check50 cs50/problems/2020/x/filter/less
+check50 cs50/problems/2022/x/filter/more
 ```
 
 Execute o comando abaixo para garantir a **estilização** do código
@@ -187,5 +206,5 @@ style50 helpers.c
 ## Enviando seu código
 Execute o comando abaixo, logando com seu **nome de usuário** do GitHub, para enviar seu código. Por questões de segurança, asteríscos serão exibidos em vez dos caracteres da sua senha
 ```
-submit50 cs50/problems/2020/x/filter/more
+submit50 cs50/problems/2022/x/filter/more
 ```

@@ -7,6 +7,43 @@ plaintext:  OLA
 ciphertext: NXJ
 ```
 
+# Iniciando
+Abra o [VS Code](https://code.cs50.io/).
+
+Inicie clicando na janela de terminal e executando o comando `cd`. Você verá o prompt abaixo
+```
+$ 
+``` 
+
+Ainda no terminal, digite o comando
+```
+wget https://cdn.cs50.net/2021/fall/psets/2/substitution.zip
+```
+e aperte ENTER para baixar o arquivo `substitution.zip`. Em seguida, execute o comando abaixo
+```
+unzip substitution.zip
+```
+para criar uma pasta chamada `substitution`. Agora que você não precisa mais do arquivo `substitution.zip`, você pode apagá-lo com o comando abaixo
+```
+rm substitution.zip
+```
+e respondendo `y` ou `Y` e apertando ENTER para confirmar.
+
+Agora, entre na pasta criada com
+```
+cd substitution
+```
+e digite o comando 
+```
+ls
+```
+Você deverá ver o arquivo `substitution.c`. Execute o comando
+```
+code substitution.c
+```
+para começar seu trabalho.
+
+
 # Fundamentos
 Em uma cifra de substituição, "criptografamos" (ou seja, ocultamos de forma reversível) uma mensagem substituindo cada letra por outra. Para isso, usamos uma chave: neste caso, um mapeamento de cada uma das letras do alfabeto para a letra a que deve corresponder quando criptografamos. Para “descriptografar” a mensagem, o receptor da mensagem precisa saber a chave, para que possa reverter o processo: traduzir o texto criptografado (geralmente chamado de **texto cifrado**) de volta na mensagem original (geralmente chamado de **texto simples**).
 
@@ -68,25 +105,19 @@ Se a chave for inválida (por não conter `26` caracteres, conter qualquer carac
 # Como testar seu código
 Execute o comando abaixo para verificar a **corretude** do seu código. Mas tente compilar e testar antes de executar o comando
 
-```check50 cs50/problems/2020/x/substitution```
+```
+check50 cs50/problems/2022/x/substitution
+```
 
 Execute o comando abaixo para garantir a **estilização** do código
 
-```style50 substitution.c```
+```
+style50 substitution.c
+```
 
-## Informações adicionais e OBRIGATÓRIAS
-As primeiras linhas do seu código devem consistir de um comentário de várias
-linhas contendo sua matrícula, seu nome completo e seu nome de usuário do github
-como no exemplo abaixo.
-```
-MATRÍCULA: ................. 
-NOME: ..................
-USUÁRIO: ...............
-```
-substitua os pontos com suas informações.
 
 ## Enviando seu programa
 Uma vez que você tenha verificado o funcionamento, `check50` e a estilização do código, `style50`, execute o comando abaixo, logando com sua conta do GitHub através de **nome de usuário** e **senha**. Por questões de segurança, você verá asteríscos (*) em vez dos caracteres da sua senha.
 ```
-submit50 cs50/problems/2020/x/substitution  
+submit50 cs50/problems/2022/x/substitution
 ```

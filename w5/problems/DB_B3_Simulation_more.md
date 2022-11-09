@@ -63,7 +63,6 @@ O objetivo do presente trabalho é você lê o conteúdo dos dois arquivos e con
    - ExrcPric
    - OptnStyle
 - Do arquivo **Posições Abertas em Derivativos**, você deve usar as seguintes colunas:
-   - SgmtNm
    - CvrdQty
    - TtlBlckPos
    - UcvrdQty
@@ -74,14 +73,14 @@ O objetivo do presente trabalho é você lê o conteúdo dos dois arquivos e con
 - O resultado deve ser semelhante ao abaixo:
 ```
 ./b3data arquivo1.csv arquivo2.csv PETR4
-RptDt      | TckrSymb | Asst  | XprtnDt    | ExrcPric | OptnStyle | SgmtNm      | CvrdQty | TtlBlckPos | UcvrdQty
-2022-01-28 | PETRB25  | PETR4 | 2023-02-17 |    19.51 | AMER      | EQUITY CALL |   60200 |      78300 |   105800
-2022-01-28 | PETRB251 | PETR4 | 2023-02-17 |    19.76 | EURO      | EQUITY CALL |       0 |          0 |     2000
-2022-01-28 | PETRB252 | PETR4 | 2022-02-18 |    19.76 | EURO      | EQUITY CALL |    7400 |     215500 |   192400
-2022-01-28 | PETRB254 | PETR4 | 2022-02-18 |    27.76 | EURO      | EQUITY CALL |  151100 |    3715300 |   398100
-2022-01-28 | PETRB256 | PETR4 | 2022-02-18 |    22.51 | AMER      | EQUITY CALL |   23100 |     267600 |    81000
-2022-01-28 | PETRB257 | PETR4 | 2022-02-18 |    30.26 | EURO      | EQUITY CALL |  283900 |    8116700 |   843700
-2022-01-28 | PETRB259 | PETR4 | 2022-02-18 |    24.01 | AMER      | EQUITY CALL |   54800 |     350100 |   261400
+RptDt      | TckrSymb | Asst  | XprtnDt    | ExrcPric | OptnStyle | CvrdQty | TtlBlckPos | UcvrdQty
+2022-01-28 | PETRB25  | PETR4 | 2023-02-17 |    19.51 | AMER      |   60200 |      78300 |   105800
+2022-01-28 | PETRB251 | PETR4 | 2023-02-17 |    19.76 | EURO      |       0 |          0 |     2000
+2022-01-28 | PETRB252 | PETR4 | 2022-02-18 |    19.76 | EURO      |    7400 |     215500 |   192400
+2022-01-28 | PETRB254 | PETR4 | 2022-02-18 |    27.76 | EURO      |  151100 |    3715300 |   398100
+2022-01-28 | PETRB256 | PETR4 | 2022-02-18 |    22.51 | AMER      |   23100 |     267600 |    81000
+2022-01-28 | PETRB257 | PETR4 | 2022-02-18 |    30.26 | EURO      |  283900 |    8116700 |   843700
+2022-01-28 | PETRB259 | PETR4 | 2022-02-18 |    24.01 | AMER      |   54800 |     350100 |   261400
 ```
 
 - Note que nem todas as linhas aparecem, pois algumas linhas correspondentes aos produtos listados não tinha negócios em aberto na data do arquivo.

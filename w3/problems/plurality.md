@@ -20,14 +20,41 @@ Talvez, o modo mais simples de executar uma eleição seja o método conhecido c
 
 # Começando
 
-Faça o _download_ do código-base (_distribution code_) logando diretamente no seu [CS50 IDE](https://ide.cs50.io/) e, em um terminal, executando os comandos abaixo:
-- Execute `cd` para garantir que você está na pasta `~/`.
-- Execute `mkdir pset3` para criar um diretório chamado `pset3` dentro do seu diretório `home`.
-- Execute `cd pset3` para entrar na pasta `pset3`.
-- Execute `make plurality` para criar um diretório chamado `plurality` dentro do `pset3`.
-- Execute `cd plurality` para entrar no diretório recém criado.
-- Execute (`wget https://cdn.cs50.net/2019/fall/psets/3/plurality/plurality.c`) para fazer o _download_ do código-base.
-- Execute `ls`. Você deverá ver um arquivo chamado `plurality.c`.
+Faça o _download_ do código-base (_distribution code_) logando diretamente no seu [CS50 IDE](https://code.cs50.io/) e, em um terminal, executando os comandos abaixo:
+
+Execute `cd` para garantir que você está na pasta `~/`.
+
+
+Execute
+```
+wget https://cdn.cs50.net/2021/fall/psets/3/plurality/plurality.c
+```
+para fazer o _download_ do código-base.
+
+
+Em seguida, execute
+```
+unzip plurality.c
+```
+para criar a pasta `plurality`. Agora você pode remover o arquivo `plurality.zip` com o comando
+```
+rm plurality.zip
+```
+
+
+Agora entre na pasta com o comando abaixo
+```
+cd plurality
+```
+
+Seu prompt mudará para 
+```
+plurality/ $
+```
+
+
+Execute `ls`. Você deverá ver um arquivo chamado `plurality.c`.
+
 
 # Entendendo
 Vamos dar uma olhada no arquivo `plurality.c` e detalhar algumas de suas linhas.
@@ -92,7 +119,7 @@ Realize alguns testes para garantir que seu código funciona
 Execute o comando abaixo para verificar a **corretude** do seu código. Tenha certeza de que o código compila antes de fazer o teste
 
 ```
-check50 cs50/problems/2020/x/plurality
+check50 cs50/problems/2022/x/plurality
 ```
 
 Execute o comando abaixo para verificar a estilização do seu código
@@ -103,5 +130,5 @@ style50 plurality.c
 # Enviando seu código
 Execute o comando abaixo para enviar seu código. Você deverá efetuar _login_ com sua credenciais do GitHub. Por questões de segurança, asteriscos (`*`) aparecesão no lugar dos caracteres da sua senha
 ```
-submit50 cs50/problems/2020/x/plurality
+submit50 cs50/problems/2022/x/plurality
 ```
