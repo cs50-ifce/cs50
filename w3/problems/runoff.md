@@ -195,7 +195,7 @@ Certifique-se de testar seu código para garantir que ele trata corretamente...
 
 Execute o comando abaixo para verificar a **corretude** do seu código. Mas tente compilar e testar antes de executar o comando
 ```
-check50 cs50/problems/2020/x/runoff
+check50 cs50/problems/2022/x/runoff
 ```
 
 Execute o comando abaixo para garantir a **estilização** do código
@@ -207,5 +207,5 @@ style50 runoff.c
 ## Enviando seu código
 Execute o comando abaixo, logando com seu **nome de usuário** do GitHub, para enviar seu código. Por questões de segurança, asteríscos serão exibidos em vez dos caracteres da sua senha
 ```
-submit50 cs50/problems/2020/x/runoff
+submit50 cs50/problems/2022/x/runoff
 ```
