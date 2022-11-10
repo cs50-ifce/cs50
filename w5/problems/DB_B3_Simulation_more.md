@@ -1,8 +1,11 @@
 # Consolidar dados da B3 (Less)
-Implemente um programa que exibe dados da B3 em um formato de tabela
+Implemente um programa que combina dois arquivos disponibilizados pela B3, em formato CSV, gerando um terceiro arquivo CSV. Seu programa deve ser executado como segue
 ```
-$ ./b3data arquivo1.csv arquivo2.csv codigo
+$ ./b3data arquivo1.csv arquivo2.csv saida.csv
 ```
+
+Sendo `arquivo1.csv` o arquivo com dados dos **Instrumentos Listados** e `arquivo2.csv` o arquivo com **Posições Abertas em Derivativos**.
+
 
 # Fundamentação
 
@@ -39,11 +42,11 @@ RptDt;TckrSymb;ISIN;Asst;XprtnCd;SgmtNm;OpnIntrst;VartnOpnIntrst;DstrbtnId;CvrdQ
 2022-01-28;PETRB257;BRPETR4B0WM0;PETR;;EQUITY CALL;;;201;283900;8116700;843700;9244300;42;307;;
 2022-01-28;PETRB259;BRPETR4B0VO8;PETR;;EQUITY CALL;;;200;54800;350100;261400;666300;19;127;;
 ```
-Pereba que existem múltiplas linhas mas todas possuem a mesma quantidade de colunas, mas o número de colunas e o conteúdo podem ser diferentes entre os arquivos.
+Pereba que existem múltiplas linhas mas todas possuem a mesma quantidade de colunas, sendo que o número de colunas e o conteúdo podem ser diferentes entre os arquivos.
 
 Os dois arquivos anteriores estão relacionados por meio da coluna `TckrSymb`. Dados que possuem o mesmo `TckrSymb` em arquivos distintos, são relacionados ao mesmo produto negociado na B3. Por exemplo, o produto `PETRB257` está presente nos dois arquivos.
 
-O arquivo **Cadastro de Instrumentos Listados**, como o próprio nome sugere, contém informações sobre todos os produtos listados (disponíveis) para negociação na B3 na data do arquivo (`RptDt`). Já o arquivo **Posições Abertas em Derivativos** contém dados dos produtos que foram negociados e ainda possuem operações em aberto na data em questão (`RptDt`).
+O arquivo **Cadastro de Instrumentos Listados**, como o próprio nome sugere, contém informações sobre todos os produtos listados (disponíveis) para negociação na B3 na data do arquivo (`RptDt`). Já o arquivo **Posições Abertas em Derivativos** contém dados dos produtos derivativos que foram negociados e ainda possuem operações em aberto (operações que foram iniciadas mas ainda não foram finalizadas) na data em questão (`RptDt`).
 
 
 # Obtendo dados e entendendo o conteúdo do arquivo
@@ -51,11 +54,10 @@ Para obter esses dados, você pode acessar o [site da B3](https://www.b3.com.br/
 
 Para saber como cada arquivo está organizado, basta acessar esse outro [link](https://www.b3.com.br/pt_br/market-data-e-indices/servicos-de-dados/market-data/consultas/boletim-diario/dados-publicos-de-produtos-listados-e-de-balcao/glossario/), também no site da B3.
 
-O arquivo do trecho está acima trata-se das posições em aberto de empréstimo de ativos cujo conteúdo é descrito pelo [seguinte documento](https://www.b3.com.br/data/files/0F/47/1F/F6/D7A6E610B60806E6AC094EA8/Posicoes%20em%20Aberto%20de%20Emprestimo%20de%20Ativos.pdf).
 
 # Objetivo
-O objetivo do presente trabalho é você lê o conteúdo dos dois arquivos e consolidar em uma tabela única.
-- Do arquivo **Dadastro de Instrumentos Listados**, você deve usar as seguintes colunas:
+O objetivo do presente trabalho é você lê o conteúdo dos dois arquivos e consolidar em um único arquivo CSV além de exibir os dados em formato de tabela.
+- Do arquivo **Cadastro de Instrumentos Listados**, você deve usar as seguintes colunas:
    - RptDt
    - TckrSymb
    - Asst
@@ -63,14 +65,25 @@ O objetivo do presente trabalho é você lê o conteúdo dos dois arquivos e con
    - ExrcPric
    - OptnStyle
 - Do arquivo **Posições Abertas em Derivativos**, você deve usar as seguintes colunas:
+   - TckrSymb
    - CvrdQty
    - TtlBlckPos
    - UcvrdQty
-- Perceba que não é necessário usar as colunas `RptDt`, `TckrSymb` e `Asst` do segundo arquivo, pois ela contém o mesmo conteúdo que no primeiro arquivo.
-  - Embora você não precise exibir o conteúdo dessas colunas, você precisa usar a coluna `TckrSymb` para combinar corretamente os dados dos arquivos.
+- Perceba que não é necessário usar as colunas `RptDt` e `Asst` do segundo arquivo, pois ela contém o mesmo conteúdo que no primeiro arquivo.
+  - Você precisa usar a coluna `TckrSymb` para combinar corretamente os dados dos dois arquivos.
 - Se o arquivo contiver números em formato decimal, a vírgula deve ser substituída por um ponto.
 - Números devem ser alinhados à direita e textos (strings) devem ser alinhados à esquerda.
-- O resultado deve ser semelhante ao abaixo:
+
+- Note que nem todas as linhas aparecem, pois algumas linhas correspondentes aos produtos listados não tinha negócios em aberto na data do arquivo.
+- Observe ainda que textos (strings) estão alinhados à esquerda e números estão alinhados à direita.
+    - Além disso, números decimais que usam vírgula como separador, no resultado estão usando ponto decimal.
+
+- Seu programa deve permitir ao usuário selecionar dois tipos de filtros, que podem ser usados juntos ou separados:
+    - Filtro de quantidade: permite ao usuário escolher um número inteiro N maior que zero. Nesse caso, apenas as linhas em que os campos `CvrdQty`, `TtlBlckPos` ou `UcvrdQty` tenham valor maior ou igual a N.
+    - Filtro por `Asst`: Permite que o usuário escolha um código de um ativo-base. Apenas as linhas referentes a esse ativo base devem ser exibidas.
+    - Filtro combinado: Permite ao usuário escolher um `Asst` e uma quantidade. Ou seja, é a combinação dos dois filtros anteriores.
+- Seu programa deve permitir ao usuário exibir os dados em tela ou salvar em um arquivo.
+    - Caso o usuário escolha exibir o resultado em tela, este deverá ser exibido em formato de tabela, deve ser semelhante ao abaixo:
 ```
 ./b3data arquivo1.csv arquivo2.csv PETR4
 RptDt      | TckrSymb | Asst  | XprtnDt    | ExrcPric | OptnStyle | CvrdQty | TtlBlckPos | UcvrdQty
@@ -82,33 +95,5 @@ RptDt      | TckrSymb | Asst  | XprtnDt    | ExrcPric | OptnStyle | CvrdQty | Tt
 2022-01-28 | PETRB257 | PETR4 | 2022-02-18 |    30.26 | EURO      |  283900 |    8116700 |   843700
 2022-01-28 | PETRB259 | PETR4 | 2022-02-18 |    24.01 | AMER      |   54800 |     350100 |   261400
 ```
+    - Caso o usuário escolha salvar em arquivo. Os dados devem ser salvos em um arquivo formato CSV.
 
-- Note que nem todas as linhas aparecem, pois algumas linhas correspondentes aos produtos listados não tinha negócios em aberto na data do arquivo.
-- Observe ainda que textos (strings) estão alinhados à esquerda e números estão alinhados à direita.
-    - Além disso, números decimais que usam vírgula como separador, no resultado estão usando ponto decimal.
-- Note que só foram exibidos os dados referentes ao código PETR4 que se encontra na coluna `Asst` do primeiro arquivo.
-# Desafio
-- Você consegue fazer seu código de modo que ele trate arquivos com os diversos tipos de final de linha?
-
-<!---
-## Testando seu código
-
-Certifique-se de testar seu código nas imagens de bitmap fornecidas
-
-Execute o comando abaixo para verificar a **corretude** do seu código. Mas tente compilar e testar antes de executar o comando
-```
-check50 cs50/problems/2020/x/filter/less
-```
-
-Execute o comando abaixo para garantir a **estilização** do código
-```
-style50 helpers.c
-```
-
-
-## Enviando seu código
-Execute o comando abaixo, logando com seu **nome de usuário** do GitHub, para enviar seu código. Por questões de segurança, asteríscos serão exibidos em vez dos caracteres da sua senha
-```
-submit50 cs50/problems/2020/x/filter/less
-```
---->
